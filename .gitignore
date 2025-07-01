@@ -1,0 +1,6 @@
+Projects/
+*.bda
+
+bd/*
+!bd/*wrapper.vhd
+!bd/*.bd
