@@ -23,8 +23,8 @@
       },
       "rst_ps7_0_100M": "",
       "multiplexer_0": "",
-      "leds_driver_0": "",
-      "rgb_driver_0": ""
+      "rgb_driver_0": "",
+      "leds_driver_0": ""
     },
     "interface_ports": {
       "DDR": {
@@ -2392,6 +2392,29 @@
           }
         }
       },
+      "rgb_driver_0": {
+        "vlnv": "xilinx.com:module_ref:rgb_driver:1.0",
+        "xci_name": "pynq_bd_rgb_driver_0_0",
+        "xci_path": "ip\\pynq_bd_rgb_driver_0_0\\pynq_bd_rgb_driver_0_0.xci",
+        "inst_hier_path": "rgb_driver_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "rgb_driver",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "rgb_in": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "rgb_out": {
+            "direction": "O",
+            "left": "5",
+            "right": "0"
+          }
+        }
+      },
       "leds_driver_0": {
         "vlnv": "xilinx.com:module_ref:leds_driver:1.0",
         "xci_name": "pynq_bd_leds_driver_0_0",
@@ -2433,29 +2456,6 @@
           "leds": {
             "direction": "O",
             "left": "3",
-            "right": "0"
-          }
-        }
-      },
-      "rgb_driver_0": {
-        "vlnv": "xilinx.com:module_ref:rgb_driver:1.0",
-        "xci_name": "pynq_bd_rgb_driver_0_0",
-        "xci_path": "ip\\pynq_bd_rgb_driver_0_0\\pynq_bd_rgb_driver_0_0.xci",
-        "inst_hier_path": "rgb_driver_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "rgb_driver",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "rgb_in": {
-            "direction": "I",
-            "left": "5",
-            "right": "0"
-          },
-          "rgb_out": {
-            "direction": "O",
-            "left": "5",
             "right": "0"
           }
         }

@@ -53,19 +53,20 @@ begin
     begin
         if (rst = '1') then
             cnt <= 0;
+            sta1 <= '0';
+            sta2 <= '0';
         else
             if rising_edge(clk) then
                 cnt <= (cnt + 1) mod 50000000; 
-            end if;
-            
-            if (cnt = 0) then
-                sta1 <= not sta1;
-            end if;
-            
-            if (cnt mod 10000000) = 0 then
-                sta2 <= (not sta2) and sta1;
-            end if;            
-                       
+                
+                if (cnt = 0) then
+                    sta1 <= not sta1;
+                end if;
+                
+                if (cnt mod 10000000) = 0 then
+                    sta2 <= (not sta2) and sta1;
+                end if;  
+            end if;    
         end if;
     
     end process;
