@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# leds_driver, multiplexer
+# leds_driver, multiplexer, rgb_driver
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -159,6 +159,7 @@ if { $bCheckModules == 1 } {
    set list_check_mods "\ 
 leds_driver\
 multiplexer\
+rgb_driver\
 "
 
    set list_mods_missing ""
@@ -808,6 +809,17 @@ proc create_root_design { parentCell } {
   set_property CONFIG.NUM_MI {2} $ps7_0_axi_periph
 
 
+  # Create instance: rgb_driver_0, and set properties
+  set block_name rgb_driver
+  set block_cell_name rgb_driver_0
+  if { [catch {set rgb_driver_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $rgb_driver_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: rst_ps7_0_100M, and set properties
   set rst_ps7_0_100M [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_ps7_0_100M ]
 
@@ -822,10 +834,11 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_gpio_rgb_gpio_io_o [get_bd_pins axi_gpio_rgb/gpio_io_o] [get_bd_pins multiplexer_0/gpio_in]
   connect_bd_net -net gpio_io_i_0_1 [get_bd_ports btn] [get_bd_pins axi_gpio_btn/gpio_io_i]
   connect_bd_net -net leds_driver_0_leds [get_bd_ports led] [get_bd_pins leds_driver_0/leds]
-  connect_bd_net -net multiplexer_0_rgb_led [get_bd_ports rgb] [get_bd_pins multiplexer_0/rgb_led]
+  connect_bd_net -net multiplexer_0_rgb_led [get_bd_pins multiplexer_0/rgb_led] [get_bd_pins rgb_driver_0/rgb_in]
   connect_bd_net -net multiplexer_0_rst_ctl [get_bd_pins leds_driver_0/rst] [get_bd_pins multiplexer_0/rst_ctl]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins axi_gpio_btn/s_axi_aclk] [get_bd_pins axi_gpio_rgb/s_axi_aclk] [get_bd_pins leds_driver_0/clk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_100M/slowest_sync_clk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_ps7_0_100M/ext_reset_in]
+  connect_bd_net -net rgb_driver_0_rgb_out [get_bd_ports rgb] [get_bd_pins rgb_driver_0/rgb_out]
   connect_bd_net -net rst_ps7_0_100M_peripheral_aresetn [get_bd_pins axi_gpio_btn/s_axi_aresetn] [get_bd_pins axi_gpio_rgb/s_axi_aresetn] [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_100M/peripheral_aresetn]
   connect_bd_net -net sw_1 [get_bd_ports sw] [get_bd_pins leds_driver_0/sws]
 

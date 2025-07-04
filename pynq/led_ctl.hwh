@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Jun 30 20:25:09 2025" VIVADOVERSION="2022.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Jul  4 12:24:00 2025" VIVADOVERSION="2022.2">
 
   <SYSTEMINFO ARCH="zynq" BOARD="www.digilentinc.com:pynq-z1:part0:1.0" DEVICE="7z020" NAME="pynq_bd" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -109,9 +109,9 @@
         <CONNECTION INSTANCE="processing_system7_0" PORT="PS_PORB"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="5" NAME="rgb" RIGHT="0" SIGIS="undef" SIGNAME="multiplexer_0_rgb_led">
+    <PORT DIR="O" LEFT="5" NAME="rgb" RIGHT="0" SIGIS="undef" SIGNAME="rgb_driver_0_rgb_out">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="multiplexer_0" PORT="rgb_led"/>
+        <CONNECTION INSTANCE="rgb_driver_0" PORT="rgb_out"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" LEFT="3" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
@@ -935,7 +935,7 @@
         </PORT>
         <PORT DIR="O" LEFT="5" NAME="rgb_led" RIGHT="0" SIGIS="undef" SIGNAME="multiplexer_0_rgb_led">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="rgb"/>
+            <CONNECTION INSTANCE="rgb_driver_0" PORT="rgb_in"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="rst_ctl" SIGIS="undef" SIGNAME="multiplexer_0_rst_ctl">
@@ -3163,6 +3163,26 @@
           </PORTMAPS>
         </BUSINTERFACE>
       </BUSINTERFACES>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/rgb_driver_0" HWVERSION="1.0" INSTANCE="rgb_driver_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="rgb_driver" VLNV="xilinx.com:module_ref:rgb_driver:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="pynq_bd_rgb_driver_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="5" NAME="rgb_in" RIGHT="0" SIGIS="undef" SIGNAME="multiplexer_0_rgb_led">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="multiplexer_0" PORT="rgb_led"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="5" NAME="rgb_out" RIGHT="0" SIGIS="undef" SIGNAME="rgb_driver_0_rgb_out">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="rgb"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
     </MODULE>
     <MODULE COREREVISION="13" FULLNAME="/rst_ps7_0_100M" HWVERSION="5.0" INSTANCE="rst_ps7_0_100M" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="proc_sys_reset" VLNV="xilinx.com:ip:proc_sys_reset:5.0">
       <DOCUMENTS>
