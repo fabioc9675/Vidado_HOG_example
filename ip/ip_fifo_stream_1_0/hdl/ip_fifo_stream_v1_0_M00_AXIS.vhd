@@ -149,7 +149,8 @@ begin
 	          counter <= 0;
 	          read_pointer <= 0;  
 	          activate <= '0';  
-	          disabled <= '0';                                           
+	          disabled <= '0';  
+	          axis_tvalid <= '0';                                          
 	                                                                                            
 	        when SEND_STREAM  =>                                                                
 	          -- The example design streaming master functionality starts                       
@@ -165,17 +166,19 @@ begin
                     counter <= counter + 1;
                 end if;
               elsif data_clk = '0' then
-                activate <= '1';
+                activate <= '0';
               end if;
               
-              axis_tvalid <= '1'; 
+              
               if read_pointer <= NUMBER_OF_OUTPUT_WORDS and M_AXIS_TREADY = '1' then
+                axis_tvalid <= '1'; 
                 read_pointer <= read_pointer + 1;
                 stream_data_out <= dfifo(read_pointer);
                 disabled <= '1';
               elsif read_pointer > NUMBER_OF_OUTPUT_WORDS then
                 mst_exec_state <= IDLE;
               elsif M_AXIS_TREADY = '0' and disabled = '1' then
+                axis_tvalid <= '0'; 
                 mst_exec_state <= IDLE;
               end if;
               
